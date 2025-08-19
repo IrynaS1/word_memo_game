@@ -1,6 +1,16 @@
 :root {
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	--font: "Roboto", sans-serif;
+	--color-primary:#222222;
+	--color-secondary:#FFFFFF;
+	--bg-color:#CCE8FF;
+	--color-active:#008BFE;
+	--color-hover:#006FCB;
+}
+
+body {
+	font-family: var(--font);
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }

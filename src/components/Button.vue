@@ -1,5 +1,7 @@
 <script setup></script>
 <template>
-	<button>Button</button>
+	<button>
+		<slot></slot>
+	</button>
 </template>
 <style scoped></style>

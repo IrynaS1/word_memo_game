@@ -1,5 +1,6 @@
 <script setup>
 import Score from './Score.vue';
+
 </script>
 
 <template>

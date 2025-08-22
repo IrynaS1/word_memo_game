@@ -1,7 +1,13 @@
 <script setup>
+import { ref } from 'vue';
 import Button from './Button.vue';
 import CloseIcon from '../icons/CloseIcon.vue';
 import TickIcon from '../icons/TickIcon.vue';
+
+const word = ref('unadmitted');
+const translation = ref('');
+const state = ref('closed');
+const status = ref(' success');
 
 const flipCard = () => {
 
@@ -25,7 +31,7 @@ const flipCard = () => {
 			<CloseIcon/>
 			<TickIcon/>
 		</Button> -->
-		<div class="card__content">unadmitted</div>
+		<div class="card__content">{{word}}</div>
 		</div>
 	</div>
 </template>

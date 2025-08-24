@@ -4,34 +4,61 @@ import Button from './Button.vue';
 import CloseIcon from '../icons/CloseIcon.vue';
 import TickIcon from '../icons/TickIcon.vue';
 
-const word = ref('unadmitted');
-const translation = ref('');
-const state = ref('closed');
-const status = ref(' success');
+let {id, firstWord, secondWord} = defineProps({
+	id: Number,
+	firstWord: String,
+	secondWord:String,
+})
 
-const flipCard = () => {
+let word = ref(firstWord); 
+let translation = ref(secondWord);
+let state = ref('closed'); //state - closed | opened
+let status = ref('pending'); //status - success | fail | pending
 
+const flipCard = (newStatus) => {
+	state.value = newStatus;
+	word.value = translation;
+};
+
+const choiceFalse = (newState, newStatus) => {
+	state.value = newState;
+	status.value = newStatus;
+};
+
+const choiceTrue = (newState, newStatus) => {
+	state.value = newState;
+	status.value = newStatus;
 };
 </script>
 
 <template>
-	<div class="card">
+	<div :id="id" class="card" >
 		<div class="card__content-wrapper">
 			<div class="card__content-wrapper-els card__number">01</div>
-		<Button 
-			class="card__content-wrapper-els card__actions" 
-			@click="flipCard"
-			>
-			Перевернуть
-		</Button> 
-			<!-- <Button 
-			class="card__content-wrapper-els card__actions card__btns" 
-			@click="flipCard"
-			>
-			<CloseIcon/>
-			<TickIcon/>
-		</Button> -->
-		<div class="card__content">{{word}}</div>
+				<Button 
+					v-if="state === 'closed' && status === 'pending'"
+					class="card__content-wrapper-els card__actions" 
+					@click="flipCard('opened')"
+					>
+					Перевернуть
+				</Button > 
+				<Button 
+					v-else-if="state === 'opened' && status === 'pending'"
+					class="card__content-wrapper-els card__actions card__btns" 
+				>
+					<CloseIcon @click="choiceFalse('closed', 'fail')"/>
+					<TickIcon @click="choiceTrue('closed', 'success')"/>
+				</Button>
+				<Button 
+					v-else-if="state === 'closed' && status === 'success' || status === 'fail'"
+					class="card__content-wrapper-els card__actions card__ending" 
+					@click="flipCard()"
+					>
+					Завершено
+				</Button > 
+				<div class="card__content">{{word}}</div>
+				<CloseIcon class="status-icon" />
+				<TickIcon class="status-icon"/> 
 		</div>
 	</div>
 </template>
@@ -40,7 +67,7 @@ const flipCard = () => {
 	.card {
 		width: 250px;
 		height: 376px;
-		padding: 19px 28px;
+		padding: 19px 28px 24px;
 		border-radius: 16px;
 		box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.1);
 		background-color: var(--color-secondary);
@@ -76,7 +103,7 @@ const flipCard = () => {
 	}
 
 	.card__actions {
-		left: 30%;
+		left: 33%;
 		bottom: -10px;
 		padding: 0 4px;
 		color: rgba(34, 34, 34, 1);
@@ -92,5 +119,16 @@ const flipCard = () => {
 		display: flex;
 		padding: 0 9px;
 		gap: 32px;
+	}
+
+	.card__ending {
+		left: 35%;
+	}
+
+	.status-icon {
+		width: 36px;
+		height: 36px;
+		position: absolute;
+		top: -18px;
 	}
 </style>

@@ -4,11 +4,12 @@ import Button from './Button.vue';
 import CloseIcon from '../icons/CloseIcon.vue';
 import TickIcon from '../icons/TickIcon.vue';
 
-let {id, firstWord, secondWord} = defineProps({
-	id: Number,
+let { firstWord, secondWord, statePosition, statusPosition } = defineProps({
 	firstWord: String,
-	secondWord:String,
-})
+	secondWord: String,
+	statePosition: String,
+	statusPosition: String,
+});
 
 let word = ref(firstWord); 
 let translation = ref(secondWord);
@@ -56,9 +57,9 @@ const choiceTrue = (newState, newStatus) => {
 					>
 					Завершено
 				</Button > 
-				<div class="card__content">{{word}}</div>
-				<CloseIcon class="status-icon" />
-				<TickIcon class="status-icon"/> 
+				<div class="card__content-text">{{word}}</div>
+			<!-- 	<CloseIcon class="status-icon" />
+				<TickIcon class="status-icon"/>  -->
 		</div>
 	</div>
 </template>
@@ -102,6 +103,11 @@ const choiceTrue = (newState, newStatus) => {
 		font-weight: 400;
 	}
 
+	.card__content-text {
+		padding: 0 20px;
+		text-align: center;
+	}
+
 	.card__actions {
 		left: 33%;
 		bottom: -10px;
@@ -113,6 +119,7 @@ const choiceTrue = (newState, newStatus) => {
 		line-height: 18px;
 		border: none;
 		text-transform: uppercase;
+		cursor: pointer;
 	}
 
 	.card__btns {

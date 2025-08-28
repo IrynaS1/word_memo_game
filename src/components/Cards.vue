@@ -1,34 +1,38 @@
 <script setup>
-import { ref } from 'vue';
+import {  onMounted, ref } from 'vue';
+import axios from 'axios';
 import Card from './Card.vue';
 
-const data = ref([
-	{
-	id:1,
-	firstWord: 'word  11',
-	secondWord:'слово  11'
-	},
-	{
-	id:2,
-	firstWord: 'word  25',
-	secondWord:'слово  25'
-	},
-	{
-	id:3,
-	firstWord: 'word  36',
-	secondWord:'слово  36'
-	},
-{
-	id:4,
-	firstWord: 'word  47',
-	secondWord:'слово  47'
-},
-]);
+let data = ref([]);
+
+async function getData() {
+  try {
+    const response = await axios.get('http://localhost:8080/api/random-words');
+	 return data.value = response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const loadData = async () => {
+	data.value = await getData();
+	data.value = data.value.map(el => ({ ...el, statePosition: 'closed', statusPosition: 'pending' }));
+}
+
+onMounted(() => {
+	loadData();
+});
 </script>
 
 <template>
 	<div class="cards-wrapper">
-		<Card v-for="(card, id) in data" :key="id" v-bind="card"/>
+		<Card 
+		v-for="card in data" 
+		:key="card.word" 
+		:first-word="card.word" 
+		:second-word="card.translation"
+		:statePosition="closed"
+		:statusPosition="pending"/>
 	</div>
 </template>
 
@@ -37,5 +41,6 @@ const data = ref([
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;
+		gap: 66px 100px;
 	}
 </style>

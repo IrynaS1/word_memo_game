@@ -31,8 +31,8 @@ onMounted(() => {
 		:key="card.word" 
 		:first-word="card.word" 
 		:second-word="card.translation"
-		:statePosition="closed"
-		:statusPosition="pending"/>
+		statePosition="closed"
+		statusPosition="pending"/>
 	</div>
 </template>
 

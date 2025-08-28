@@ -18,7 +18,7 @@ let status = ref('pending'); //status - success | fail | pending
 
 const flipCard = (newStatus) => {
 	state.value = newStatus;
-	word.value = translation;
+	word.value = translation.value;
 };
 
 const choiceFalse = (newState, newStatus) => {

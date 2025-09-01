@@ -2,6 +2,7 @@
 import {  onMounted, ref } from 'vue';
 import axios from 'axios';
 import Card from './Card.vue';
+import Button from './Button.vue';
 
 let data = ref([]);
 
@@ -34,9 +35,7 @@ onMounted(() => {
 		v-for="card in data" 
 		:key="card.word" 
 		:first-word="card.word" 
-		:second-word="card.translation"
-		state-position="closed"
-		status-position="pending"/>
+		:second-word="card.translation"/>
 	</div>
 		<Button 
 			class="restart-game__btn" 

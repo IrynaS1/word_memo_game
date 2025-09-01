@@ -6,17 +6,15 @@ import TickIcon from '../icons/TickIcon.vue';
 
 const updateScore =	inject('updateScore');
 
-let { firstWord, secondWord, statePosition, statusPosition } = defineProps({
+let { firstWord, secondWord } = defineProps({
 	firstWord: String,
 	secondWord: String,
-	statePosition: String,
-	statusPosition: String,
 });
 
 let word = ref(firstWord); 
 let translation = ref(secondWord);
-let state = ref(statePosition); //state - closed | opened
-let status = ref(statusPosition); //status - success | fail | pending
+let state = ref('closed'); //state - closed | opened
+let status = ref('pending'); //status - success | fail | pending
 
 const flipCard = (newStatus) => {
 	state.value = newStatus;
@@ -61,8 +59,8 @@ const choiceTrue = (newState, newStatus) => {
 					Завершено
 				</div > 
 				<div class="card__content-text">{{word}}</div>
-				<CloseIcon class="status-icon" v-if="status === 'fail'" />
-				<TickIcon class="status-icon" v-if="status === 'success'" /> 
+				<CloseIcon v-if="status === 'fail'" class="status-icon" />
+				<TickIcon v-if="status === 'success'" class="status-icon" /> 
 		</div>
 	</div>
 </template>

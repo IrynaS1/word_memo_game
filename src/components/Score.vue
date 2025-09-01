@@ -1,12 +1,9 @@
 <script setup>
-import { ref } from 'vue';
 import BoldHeart from '../icons/BoldHeart.vue';
 
-const score = ref(100);
-
-/* const { score } = defineProps({
+const { score } = defineProps({
 	score: Number,
-}); */
+}); 
 </script>
 
 <template>

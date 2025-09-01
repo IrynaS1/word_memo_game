@@ -1,8 +1,10 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, inject } from 'vue';
 import Button from './Button.vue';
 import CloseIcon from '../icons/CloseIcon.vue';
 import TickIcon from '../icons/TickIcon.vue';
+
+const updateScore =	inject('updateScore');
 
 let { firstWord, secondWord, statePosition, statusPosition } = defineProps({
 	firstWord: String,
@@ -13,8 +15,8 @@ let { firstWord, secondWord, statePosition, statusPosition } = defineProps({
 
 let word = ref(firstWord); 
 let translation = ref(secondWord);
-let state = ref('closed'); //state - closed | opened
-let status = ref('pending'); //status - success | fail | pending
+let state = ref(statePosition); //state - closed | opened
+let status = ref(statusPosition); //status - success | fail | pending
 
 const flipCard = (newStatus) => {
 	state.value = newStatus;
@@ -24,16 +26,18 @@ const flipCard = (newStatus) => {
 const choiceFalse = (newState, newStatus) => {
 	state.value = newState;
 	status.value = newStatus;
+	updateScore(-4);
 };
 
 const choiceTrue = (newState, newStatus) => {
 	state.value = newState;
 	status.value = newStatus;
+	updateScore(10);
 };
 </script>
 
 <template>
-	<div :id="id" class="card" >
+	<div :id="firstWord" class="card" >
 		<div class="card__content-wrapper">
 			<div class="card__content-wrapper-els card__number">01</div>
 				<Button 
@@ -50,16 +54,15 @@ const choiceTrue = (newState, newStatus) => {
 					<CloseIcon @click="choiceFalse('closed', 'fail')"/>
 					<TickIcon @click="choiceTrue('closed', 'success')"/>
 				</Button>
-				<Button 
+				<div
 					v-else-if="state === 'closed' && status === 'success' || status === 'fail'"
-					class="card__content-wrapper-els card__actions card__ending" 
-					@click="flipCard()"
+					class="card__content-wrapper-els card__ending" 
 					>
 					Завершено
-				</Button > 
+				</div > 
 				<div class="card__content-text">{{word}}</div>
-			<!-- 	<CloseIcon class="status-icon" />
-				<TickIcon class="status-icon"/>  -->
+				<CloseIcon class="status-icon" v-if="status === 'fail'" />
+				<TickIcon class="status-icon" v-if="status === 'success'" /> 
 		</div>
 	</div>
 </template>
@@ -98,7 +101,7 @@ const choiceTrue = (newState, newStatus) => {
 		padding: 0 2px;
 		left: 16px;
 		top: -10px;
-		color: var(--color--text-content);
+		color: var(--color-text-content);
 		font-size: 14px;
 		font-weight: 400;
 	}
@@ -130,6 +133,15 @@ const choiceTrue = (newState, newStatus) => {
 
 	.card__ending {
 		left: 35%;
+		bottom: -10px;
+		padding: 0 4px;
+		color: rgba(34, 34, 34, 1);
+		font-family: var(--font);
+		font-size: 12px;
+		font-weight: 600;
+		line-height: 18px;
+		border: none;
+		text-transform: uppercase;
 	}
 
 	.status-icon {
